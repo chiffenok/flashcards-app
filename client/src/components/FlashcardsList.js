@@ -12,6 +12,24 @@ export class FlashcardsList extends Component {
             { id: uuid(), originalWord: 'pan', translationWord: 'bread' }
         ]
     };
+
+    handleAddFlashcard = () => {
+        const originalWord = prompt('Enter name');
+        if (originalWord) {
+            this.setState(state => ({
+                flashcards: [...state.flashcards, { id: uuid(), originalWord }]
+            }));
+        }
+    };
+
+    handleDeleteFlashcard = curId => {
+        this.setState(state => ({
+            flashcards: state.flashcards.filter(
+                flashcard => flashcard.id !== curId
+            )
+        }));
+    };
+
     render() {
         const { flashcards } = this.state;
         return (
@@ -19,17 +37,7 @@ export class FlashcardsList extends Component {
                 <Button
                     color='dark'
                     style={{ marginBottom: '2em' }}
-                    onClick={() => {
-                        const originalWord = prompt('Enter name');
-                        if (originalWord) {
-                            this.setState(state => ({
-                                flashcards: [
-                                    ...state.flashcards,
-                                    { id: uuid(), originalWord }
-                                ]
-                            }));
-                        }
-                    }}
+                    onClick={this.handleAddFlashcard}
                 >
                     Add Flashcard
                 </Button>
@@ -46,11 +54,9 @@ export class FlashcardsList extends Component {
                                         className='remove-btn'
                                         color='danger'
                                         size='sm'
-                                        onClick={() => {
-                                            this.setState(state => ({
-                                                flashcards: state.flashcards.filter(flashcard => flashcard.id != id)
-                                            }));
-                                        }}
+                                        onClick={() =>
+                                            this. handleDeleteFlashcard(id)
+                                        }
                                     >
                                         &times;
                                     </Button>
