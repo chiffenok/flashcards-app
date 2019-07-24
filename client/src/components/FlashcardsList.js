@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import uuid from 'uuid';
-import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
+import { connect } from 'react-redux';
+import { getFlashcards } from '../actions/flashcardActions';
 
 export class FlashcardsList extends Component {
-    state = {
-        flashcards: [
-            { id: uuid(), originalWord: 'test', translationWord: 'probando' },
-            { id: uuid(), originalWord: 'leche', translationWord: 'milk' },
-            { id: uuid(), originalWord: 'tea', translationWord: 'te' },
-            { id: uuid(), originalWord: 'pan', translationWord: 'bread' }
-        ]
-    };
+    componentDidMount() {
+        this.props.getFlashcards();
+    }
 
     handleAddFlashcard = () => {
         const originalWord = prompt('Enter name');
@@ -31,7 +29,7 @@ export class FlashcardsList extends Component {
     };
 
     render() {
-        const { flashcards } = this.state;
+        const { flashcards } = this.props.flashcard;
         return (
             <Container>
                 <Button
@@ -55,7 +53,7 @@ export class FlashcardsList extends Component {
                                         color='danger'
                                         size='sm'
                                         onClick={() =>
-                                            this. handleDeleteFlashcard(id)
+                                            this.handleDeleteFlashcard(id)
                                         }
                                     >
                                         &times;
@@ -71,4 +69,16 @@ export class FlashcardsList extends Component {
     }
 }
 
-export default FlashcardsList;
+FlashcardsList.propTypes = {
+    getFlashcards: PropTypes.func.isRequired,
+    flashcard: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+    flashcard: state.flashcard
+});
+
+export default connect(
+    mapStateToProps,
+    { getFlashcards }
+)(FlashcardsList);
