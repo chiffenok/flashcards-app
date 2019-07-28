@@ -20,6 +20,18 @@ export default function(state = initialState, action) {
             return {
                 ...state
             };
+        case DELETE_FLASHCARD:
+            return {
+                ...state,
+                flashcards: state.flashcards.filter(
+                    flashcard => flashcard.id !== action.payload
+                )
+            };
+        case ADD_FLASHCARD:
+            return {
+                ...state,
+                flashcards: [action.payload, ...state.flashcards]
+            };
         default:
             return state;
     }

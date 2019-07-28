@@ -9,3 +9,17 @@ export const getFlashcards = () => {
         type: GET_FLASHCARDS
     };
 };
+
+export const deleteFlashcard = id => {
+    return {
+        type: DELETE_FLASHCARD,
+        payload: id
+    };
+};
+
+export const addFlashcard = flashcard => {
+    return {
+        type: ADD_FLASHCARD,
+        payload: flashcard
+    };
+};
