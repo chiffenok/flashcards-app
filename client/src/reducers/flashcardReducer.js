@@ -1,36 +1,39 @@
 import {
     GET_FLASHCARDS,
     ADD_FLASHCARD,
-    DELETE_FLASHCARD
+    DELETE_FLASHCARD,
+    FLASHCARDS_LOADING
 } from '../actions/types';
-import uuid from 'uuid';
 
 const initialState = {
-    flashcards: [
-        { id: uuid(), originalWord: 'test', translationWord: 'probando' },
-        { id: uuid(), originalWord: 'leche', translationWord: 'milk' },
-        { id: uuid(), originalWord: 'tea', translationWord: 'te' },
-        { id: uuid(), originalWord: 'pan', translationWord: 'bread' }
-    ]
+    flashcards: [],
+    loading: false
 };
 
 export default function(state = initialState, action) {
     switch (action.type) {
         case GET_FLASHCARDS:
             return {
-                ...state
+                ...state,
+                flashcards: action.payload, 
+                loading: false
             };
         case DELETE_FLASHCARD:
             return {
                 ...state,
                 flashcards: state.flashcards.filter(
-                    flashcard => flashcard.id !== action.payload
+                    flashcard => flashcard._id !== action.payload
                 )
             };
         case ADD_FLASHCARD:
             return {
                 ...state,
                 flashcards: [action.payload, ...state.flashcards]
+            };
+        case FLASHCARDS_LOADING:
+            return {
+                ...state,
+                loading: true
             };
         default:
             return state;

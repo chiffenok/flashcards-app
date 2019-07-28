@@ -32,27 +32,29 @@ export class FlashcardsList extends Component {
             <Container>
                 <ListGroup>
                     <TransitionGroup className='flashcards-list'>
-                        {flashcards.map(({ id, originalWord }) => (
-                            <CSSTransition
-                                key={id}
-                                timeout={500}
-                                classNames='fade'
-                            >
-                                <ListGroupItem>
-                                    <Button
-                                        className='remove-btn'
-                                        color='danger'
-                                        size='sm'
-                                        onClick={() =>
-                                            this.handleDeleteFlashcard(id)
-                                        }
-                                    >
-                                        &times;
-                                    </Button>
-                                    {originalWord}
-                                </ListGroupItem>
-                            </CSSTransition>
-                        ))}
+                        {flashcards.map(
+                            ({ _id, originalWord, translationWord }) => (
+                                <CSSTransition
+                                    key={_id}
+                                    timeout={500}
+                                    classNames='fade'
+                                >
+                                    <ListGroupItem>
+                                        <Button
+                                            className='remove-btn'
+                                            color='danger'
+                                            size='sm'
+                                            onClick={() =>
+                                                this.handleDeleteFlashcard(_id)
+                                            }
+                                        >
+                                            &times;
+                                        </Button>
+                                        {originalWord} - {translationWord}
+                                    </ListGroupItem>
+                                </CSSTransition>
+                            )
+                        )}
                     </TransitionGroup>
                 </ListGroup>
             </Container>

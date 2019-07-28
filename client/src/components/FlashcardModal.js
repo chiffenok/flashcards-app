@@ -8,10 +8,8 @@ import {
     ModalBody,
     Form,
     FormGroup,
-    Label,
     Input
 } from 'reactstrap';
-import uuid from 'uuid';
 
 class FlashcardModal extends Component {
     state = {
@@ -35,7 +33,6 @@ class FlashcardModal extends Component {
     onSubmit = e => {
         e.preventDefault();
         const newFlashcard = {
-            id: uuid(),
             originalWord: this.state.originalWord,
             translationWord: this.state.translationWord
         };
