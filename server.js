@@ -22,7 +22,9 @@ mongoose
 app.use('/api/flashcards', flashcards);
 
 if (process.env.NODE_ENV === 'production') {
+    // Set static folder
     app.use(express.static('client/build'));
+
     app.get('*', (req, res) => {
         res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
     });
@@ -31,8 +33,4 @@ if (process.env.NODE_ENV === 'production') {
 const port = process.env.PORT;
 app.listen(port, () => {
     console.log(`Server started on port ${port}`);
-});
-
-app.get('/', (req, res) => {
-    res.send('<h1>hello2</h1>');
 });
