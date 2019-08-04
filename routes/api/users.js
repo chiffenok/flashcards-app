@@ -16,8 +16,6 @@ router.post('/', (req, res) => {
     }
 
     User.findOne({ email }).then(user => {
-        console.log(process.env.MONGO_ATLAS_PWD);
-
         if (user) return res.status(400).json({ msg: 'User already exists' });
         const newUser = new User({ name, email, password });
         // Create salt & hash
