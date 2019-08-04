@@ -3,14 +3,13 @@ const mongoose = require('mongoose');
 const path = require('path');
 
 const app = express();
-const flashcards = require('./routes/api/flashcards');
 
 app.use(express.json());
 
 mongoose
     .connect(
         'mongodb+srv://u_flashcards:1234123@cluster0-gbr14.mongodb.net/flashcards-app?retryWrites=true&w=majority',
-        { useNewUrlParser: true }
+        { useNewUrlParser: true, useCreateIndex: true }
     )
     .then(() => {
         console.log('MongoDB is connected');
@@ -19,7 +18,8 @@ mongoose
         console.log(err);
     });
 
-app.use('/api/flashcards', flashcards);
+app.use('/api/flashcards', require('./routes/api/flashcards'));
+app.use('/api/users', require('./routes/api/users'));
 
 if (process.env.NODE_ENV === 'production') {
     // Set static folder
