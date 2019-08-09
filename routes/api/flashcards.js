@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../../middleware/auth');
 
 const Flashcard = require('../../models/Flashcard');
 
@@ -17,8 +18,8 @@ router.get('/', (req, res) => {
 
 // @route api/flashcard
 // @desc Create a flashcard
-// @access Public
-router.post('/', (req, res) => {
+// @access Private
+router.post('/', auth, (req, res) => {
     const newFlashcard = new Flashcard({
         originalWord: req.body.originalWord,
         translationWord: req.body.translationWord
@@ -33,8 +34,8 @@ router.post('/', (req, res) => {
 
 // @route api/flashcards/:id
 // @desc Delete a flashcard
-// @access Public
-router.delete('/:id', (req, res) => {
+// @access Private
+router.delete('/:id', auth, (req, res) => {
     Flashcard.findById(req.params.id)
         .then(flashcard =>
             flashcard.remove().then(() => res.json({ success: true }))
