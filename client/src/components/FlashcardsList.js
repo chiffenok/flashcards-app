@@ -51,7 +51,7 @@ export class FlashcardsList extends Component {
                                                 className='remove-btn'
                                                 color='danger'
                                                 size='sm'
-                                                onClick={this.onDeleteClick.bind(
+                                                onClick={this.handleDeleteFlashcard.bind(
                                                     this,
                                                     _id
                                                 )}
