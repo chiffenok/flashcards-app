@@ -6,6 +6,12 @@ import { connect } from 'react-redux';
 import { getFlashcards, deleteFlashcard } from '../actions/flashcardActions';
 
 export class FlashcardsList extends Component {
+    static propTypes = {
+        getItems: PropTypes.func.isRequired,
+        item: PropTypes.object.isRequired,
+        isAuthenticated: PropTypes.bool
+    };
+
     componentDidMount() {
         this.props.getFlashcards();
     }
@@ -40,16 +46,19 @@ export class FlashcardsList extends Component {
                                     classNames='fade'
                                 >
                                     <ListGroupItem>
-                                        <Button
-                                            className='remove-btn'
-                                            color='danger'
-                                            size='sm'
-                                            onClick={() =>
-                                                this.handleDeleteFlashcard(_id)
-                                            }
-                                        >
-                                            &times;
-                                        </Button>
+                                        {this.props.isAuthenticated ? (
+                                            <Button
+                                                className='remove-btn'
+                                                color='danger'
+                                                size='sm'
+                                                onClick={this.onDeleteClick.bind(
+                                                    this,
+                                                    _id
+                                                )}
+                                            >
+                                                &times;
+                                            </Button>
+                                        ) : null}
                                         {originalWord} - {translationWord}
                                     </ListGroupItem>
                                 </CSSTransition>
@@ -62,13 +71,9 @@ export class FlashcardsList extends Component {
     }
 }
 
-FlashcardsList.propTypes = {
-    getFlashcards: PropTypes.func.isRequired,
-    flashcard: PropTypes.object.isRequired
-};
-
 const mapStateToProps = state => ({
-    flashcard: state.flashcard
+    flashcard: state.flashcard,
+    isAuthenticated: state.auth.isAuthenticated
 });
 
 export default connect(

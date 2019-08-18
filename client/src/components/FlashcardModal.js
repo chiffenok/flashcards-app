@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addFlashcard } from '../actions/flashcardActions';
+import PropTypes from 'prop-types';
 import {
     Button,
     Modal,
@@ -16,6 +17,10 @@ class FlashcardModal extends Component {
         isModal: false,
         translationWord: '',
         originalWord: ''
+    };
+
+    static propTypes = {
+        isAuthenticated: PropTypes.bool
     };
 
     toggle = () => {
@@ -44,13 +49,17 @@ class FlashcardModal extends Component {
     render() {
         return (
             <div>
-                <Button
-                    color='dark'
-                    style={{ marginBottom: '2rem' }}
-                    onClick={this.toggle}
-                >
-                    Add Flashcard
-                </Button>
+                {this.props.isAuthenticated ? (
+                    <Button
+                        color='dark'
+                        style={{ marginBottom: '2rem' }}
+                        onClick={this.toggle}
+                    >
+                        Add Item
+                    </Button>
+                ) : (
+                    <h4 className='mb-3 ml-4'>Please log in to manage items</h4>
+                )}
                 <Modal isOpen={this.state.isModal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>
                         Add to Flashcards
@@ -91,7 +100,8 @@ class FlashcardModal extends Component {
 }
 
 const mapStateToProps = state => ({
-    flashcard: state.flashcard
+    flashcard: state.flashcard,
+    isAuthenticated: state.auth.isAuthenticated
 });
 
 export default connect(
